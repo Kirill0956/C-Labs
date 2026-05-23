@@ -1,94 +1,44 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include "matrix.h"
+#include <math.h>
+
+// Объявление функций
+int isValidTriangle(double a, double b, double c);
+double getPerimeter(double a, double b, double c);
+double getArea(double a, double b, double c);
 
 int main()
 {
-    int n;
-    char op;
-    
-    // Ввод размера
-    printf("Enter size of matrices (n): ");
-    scanf("%d", &n);
-    
-    // Выделение памяти для матриц A и B
-    double** A = (double**)malloc(n * sizeof(double*));
-    double** B = (double**)malloc(n * sizeof(double*));
-    
-    for (int i = 0; i < n; i++)
+    double a, b, c;
+
+    printf("Enter three sides of triangle: ");
+    scanf("%lf %lf %lf", &a, &b, &c);
+
+    if (!isValidTriangle(a, b, c))
     {
-        A[i] = (double*)malloc(n * sizeof(double));
-        B[i] = (double*)malloc(n * sizeof(double));
-    }
-    
-    // Ввод матрицы A
-    printf("\nEnter matrix A:\n");
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            printf("A[%d][%d] = ", i, j);
-            scanf("%lf", &A[i][j]);
-        }
-    }
-    
-    // Ввод матрицы B
-    printf("\nEnter matrix B:\n");
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            printf("B[%d][%d] = ", i, j);
-            scanf("%lf", &B[i][j]);
-        }
-    }
-    
-    // Ввод операции
-    printf("\nEnter operation (+, -, *): ");
-    scanf(" %c", &op);
-    
-    // Вычисление результата
-    double** result;
-    
-    if (op == '+')
-    {
-        result = addMatrices(A, B, n);
-    }
-    else if (op == '-')
-    {
-        result = subMatrices(A, B, n);
-    }
-    else if (op == '*')
-    {
-        result = mulMatrices(A, B, n);
-    }
-    else
-    {
-        printf("Error: Unknown operation!\n");
+        printf("Triangle does not exist!\n");
         return 1;
     }
-    
-    // Вывод результата
-    printf("\nResult:\n");
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            printf("%8.2f ", result[i][j]);
-        }
-        printf("\n");
-    }
-    
-    // Освобождение памяти
-    for (int i = 0; i < n; i++)
-    {
-        free(A[i]);
-        free(B[i]);
-        free(result[i]);
-    }
-    free(A);
-    free(B);
-    free(result);
-    
+
+    printf("Perimeter = %.2f\n", getPerimeter(a, b, c));
+    printf("Area = %.2f\n", getArea(a, b, c));
+
     return 0;
+}
+
+// Реализация функций
+int isValidTriangle(double a, double b, double c)
+{
+    return (a + b > c) && (a + c > b) && (b + c > a);
+}
+
+double getPerimeter(double a, double b, double c)
+{
+    return a + b + c;
+}
+
+// Этой функции не хватало!
+double getArea(double a, double b, double c)
+{
+    double p = getPerimeter(a, b, c) / 2;
+    return sqrt(p * (p - a) * (p - b) * (p - c));
 }
