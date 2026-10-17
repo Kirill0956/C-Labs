@@ -1,0 +1,3 @@
+The quick brown fox jumps over the lazy dog.
+Numbers: 123, 456; and more!
+Last line without newline
